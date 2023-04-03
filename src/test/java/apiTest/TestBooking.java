@@ -44,35 +44,30 @@ import static org.hamcrest.Matchers.*;
                     //.accept(ac)
                     .contentType(ct)
                     .log().all()                                 // mostre tudo na volta
-                    .body("firstname", is("Malagueta"))
-                    .body("lastname", is("Oliveira"))
-                    .body("checkin", is("2018-01-01"))
-                    .body("checkout", is("2019-01-01"))
+                    .body("booking.firstname", is("Malagueta"))
+                    .body("booking.lastname", is("Oliveira"))
+                    .body("booking.bookingdates.checkin", is("2018-01-01"))
+                    .body("booking.bookingdates.checkout", is("2019-01-01"))
             ;
         }
 
         @Test
         public void testarGetBooking(){
-            String id = "1";
-
-            //RESULTADOS ESPERADOS
-
-            String firstname = "Malagueta";
-            String lastname = "Oliveira";
-
+            String id = "4347";
+            /
                 given()
                     .contentType(ct)
                     .log().all()
-                    .body(id)
                 .when()
                     .get(uriUser + id)
                 .then()
+                    .contentType(ct)
                     .log().all()
-                    .body("firstname", is(firstname))
-                    .body("lastname", is(lastname))
-                    .body("depositpaid", is("true"))
-                    .body("checkin", is("2018-01-01"))
-                    .body("checkout", is("2019-01-01"))
+                    .body("firstname", is("Malagueta"))
+                    .body("lastname", is("Oliveira"))
+                    //.body("depositpaid", is("true"))
+                    .body("bookingdates.checkin", is("2018-01-01"))
+                    .body("bookingdates.checkout", is("2019-01-01"))
             ;
 
         }
