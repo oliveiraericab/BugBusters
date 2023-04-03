@@ -23,7 +23,7 @@ import static org.hamcrest.Matchers.*;
         static String ct = "application/json";  //content type
         static String uriUser = "https://restful-booker.herokuapp.com/booking";
 
-        //static String ac = "application/json"; //accept
+        // static String ac = "application/json"; //accept
 
         //Funções e métodos
         //Funções de apoio
@@ -46,9 +46,9 @@ import static org.hamcrest.Matchers.*;
             .when()
                     .post(uriUser)                               //Endpoint / Onde
             .then()
-                   // .accept(ac)
+                    //.accept(ac)
+                    .contentType(ct)
                     .log().all()                                 // mostre tudo na volta
-                   // .statusCode(200)       ESTA API NÃO RETORNA CAMPO CODE  // comunicação ida e volta está ok
                     .body("firstname", is("Malagueta"))
                     .body("lastname", is("Oliveira"))
                     .body("checkin", is("2018-01-01"))
