@@ -1,13 +1,8 @@
 package apiTest;
 
-import com.google.gson.Gson;
-import io.restassured.response.Response;
 import org.junit.jupiter.api.MethodOrderer;
-import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvFileSource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -18,10 +13,10 @@ import static org.hamcrest.Matchers.*;
 
 
     @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
-    public class TestUser {   //Início da classe
+    public class TestBooking {   //Início da classe
         //Atributos
         static String ct = "application/json";  //content type
-        static String uriUser = "https://restful-booker.herokuapp.com/booking";
+        static String uriUser = "https://restful-booker.herokuapp.com/booking/";
 
         // static String ac = "application/json"; //accept
 
@@ -33,7 +28,7 @@ import static org.hamcrest.Matchers.*;
         //Funções  de Testes
 
         @Test
-        public void testarIncluirUser() throws IOException {
+        public void testarCreateBooking() throws IOException {
             // carregar os dados do nosso Json
             String jsonBody = lerArquivoJson("src/test/resources/json/user1.json");
             String username = "Malagueta";
@@ -55,33 +50,34 @@ import static org.hamcrest.Matchers.*;
                     .body("checkout", is("2019-01-01"))
             ;
         }
-    }
-/*
-        public void testarConsultarUser(){
-            String username = "malagueta";
+
+        @Test
+        public void testarGetBooking(){
+            String id = "1";
 
             //RESULTADOS ESPERADOS
 
-            int userId = 15215912;
-            String email = "malagueta@teste.com";
-            String senha = "123456";
-            String telefone = "15995990510";
+            String firstname = "Malagueta";
+            String lastname = "Oliveira";
 
-            given()
+                given()
                     .contentType(ct)
                     .log().all()
-                    .when()
-                    .get(uriUser + username)
-                    .then()
+                    .body(id)
+                .when()
+                    .get(uriUser + id)
+                .then()
                     .log().all()
-                    .statusCode(200)
-                    .body("id", is(userId))
-                    .body("email", is(email))
-                    .body("password", is (senha))
-                    .body("phone", is (telefone))
+                    .body("firstname", is(firstname))
+                    .body("lastname", is(lastname))
+                    .body("depositpaid", is("true"))
+                    .body("checkin", is("2018-01-01"))
+                    .body("checkout", is("2019-01-01"))
             ;
 
         }
+    }
+        /*
         @Test @Order(3)
         public void testarAlterarUser() throws IOException {
             String jsonBody = lerArquivoJson("src/test/resources/json/user2.json");
