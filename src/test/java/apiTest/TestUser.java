@@ -30,7 +30,7 @@ import static org.hamcrest.Matchers.*;
         public static String lerArquivoJson(String arquivoJson) throws IOException {
             return new String(Files.readAllBytes(Paths.get(arquivoJson)));
         }
-        //Funções de Testes
+        //Funções  de Testes
 
         @Test
         public void testarIncluirUser() throws IOException {
