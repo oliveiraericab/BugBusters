@@ -3,6 +3,8 @@ package apiTest;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.CsvFileSource;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -127,7 +129,7 @@ import static org.hamcrest.Matchers.*;
             ;
         }
 
-        @ParameterizedTest @Order(6)
+        @ParameterizedTest
         @CsvFileSource(resources = "csv/massaUser.csv", numLinesToSkip = 1, delimiter = ',')
         public void testarIncluirUserCSV(
                 String id,
@@ -167,8 +169,6 @@ import static org.hamcrest.Matchers.*;
                     .body("message", is(id))              // message é userId
             ;
         }
-
-
-
     }
-*/
+
+     */
