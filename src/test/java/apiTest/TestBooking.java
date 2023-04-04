@@ -41,7 +41,7 @@ import static org.hamcrest.Matchers.*;
                     .contentType(ct)
                     .log().all()
                     .body("token", hasLength(15))
-            //como extrair o token
+            //como  extrair o token
             ;
         }
 
