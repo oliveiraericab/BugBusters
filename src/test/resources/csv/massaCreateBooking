@@ -1,0 +1,11 @@
+firstname,lastname,totalprice,depositpaid,bookingdates/checkin,bookingdates/checkout,additionalneeds
+Jim,Brown,111,true,2018-01-01,2019-01-01,Breakfast
+Maria,Silva,150,false,2022-06-05,2022-06-10,None
+John,Doe,300,true,2022-07-12,2022-07-17,Extra towels
+Robert,Johnson,75,false,2022-04-15,2022-04-18,Late checkout
+Emily,White,225,true,2022-08-20,2022-08-24,Dinner
+Carlos,Lima,90,false,2022-03-01,2022-03-05,None
+Ana,Santos,120,true,2022-09-10,2022-09-12,Early check-in
+Lucas,Ferreira,50,false,2022-02-15,2022-02-18,None
+Gabriela,Moreira,180,true,2022-10-01,2022-10-05,Spa treatment
+Andre,Gomes,130,false,2022-11-01,2022-11-04,None

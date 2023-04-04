@@ -1,5 +1,7 @@
 package apiTest;
 
+import com.google.gson.Gson;
+import io.restassured.response.Response;
 import org.junit.jupiter.api.MethodOrderer;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestMethodOrder;
@@ -39,6 +41,7 @@ import static org.hamcrest.Matchers.*;
                     .contentType(ct)
                     .log().all()
                     .body("token", hasLength(15))
+            //como extrair o token
             ;
         }
 
@@ -48,21 +51,21 @@ import static org.hamcrest.Matchers.*;
             String jsonBody = lerArquivoJson("src/test/resources/json/user1.json");
             String username = "Malagueta";
 
-            //realizar o teste
-            given()                                              // Dado que
-                    .contentType(ct)                             // tipo de conteúdo
-                    .log().all()                                 // mostre tudo
-                    .body(jsonBody)                              // corpo da requisição
+            given()
+                    .contentType(ct)
+                    .log().all()
+                    .body(jsonBody)
             .when()
-                    .post(uriUser)                               //Endpoint / Onde
+                    .post(uriUser + "booking")
             .then()
                     //.accept(ac)
                     .contentType(ct)
-                    .log().all()                                 // mostre tudo na volta
+                    .log().all()
                     .body("booking.firstname", is("Malagueta"))
                     .body("booking.lastname", is("Oliveira"))
                     .body("booking.bookingdates.checkin", is("2018-01-01"))
                     .body("booking.bookingdates.checkout", is("2019-01-01"))
+                  //como extrair o bookingid
             ;
         }
 
@@ -74,20 +77,19 @@ import static org.hamcrest.Matchers.*;
                     .contentType(ct)
                     .log().all()
                 .when()
-                    .get("booking/" + uriUser + id)
+                    .get( uriUser + "booking/" + id)
 
                 .then()
                     .contentType(ct)
                     .log().all()
                     .body("firstname", is("Malagueta"))
                     .body("lastname", is("Oliveira"))
-                    //.body("depositpaid", is("true"))
                     .body("bookingdates.checkin", is("2018-01-01"))
                     .body("bookingdates.checkout", is("2019-01-01"))
+                //como comparar depositpaid boolean?
             ;
 
         }
-    }
     /*
 
         @Test
@@ -128,47 +130,44 @@ import static org.hamcrest.Matchers.*;
                     .body("message", is(username))
             ;
         }
-
+ */
         @ParameterizedTest
-        @CsvFileSource(resources = "csv/massaUser.csv", numLinesToSkip = 1, delimiter = ',')
-        public void testarIncluirUserCSV(
-                String id,
-                String username,
-                String firstName,
-                String lastName,
-                String email,
-                String password,
-                String phone,
-                String userStatus){
+        @CsvFileSource(resources = "csv/massaCreateBooking", numLinesToSkip = 1, delimiter = ',')
+        public void testarCreateBookingCSV(
+                String firstname,
+                String lastname,
+                String totalprice,
+                String depositpaid,
+                String bookingdates.checkin,
+                String bookingdates.checkout){
 
             User user = new User();
-            user.id = id;
-            user.username = username;
-            user.firstName = firstName;
-            user.lastName = lastName;
-            user.email = email;
-            user.password = password;
-            user.phone = phone;
-            user.userStatus = userStatus;
+            user.firstname = firstname;
+            user.lastname = lastname;
+            user.totalprice = totalprice;
+            user.depositpaid = depositpaid;
+            user.bookingdates.checkin = bookingdates.checkin;
+            user.bookingdates.checkout = bookingdates.checkout;
 
             Gson gson = new Gson();
             String jsonBody = gson.toJson(user);
 
-            //realizar o teste
-            given()                                              // Dado que
-                    .contentType(ct)                             // tipo de conteúdo
-                    .log().all()                                 // mostre tudo
-                    .body(jsonBody)                              // corpo da requisição
-                    .when()
-                    .post(uriUser)                               //Endpoint / Onde
-                    .then()
-                    .log().all()                                 // mostre tudo na volta
-                    .statusCode(200)                          // comunicação ida e volta está ok
-                    .body("code", is(200))              // tag code é 200
-                    .body("type", is("unknown"))        // tag type é "unknown"
-                    .body("message", is(id))              // message é userId
+            given()
+                    .contentType(ct)
+                    .log().all()
+                    .body(jsonBody)
+            .when()
+                    .post(uriUser + "booking")
+            .then()
+                    .contentType(ct)
+                    .log().all()
+                    .body("bookingid", is(________)) //como extrair o bookingid
+                    .body("booking.firstname", is(firstname))
+                    .body("booking.lastname", is(lastname))
+                    .body("booking.bookingdates.checkin", is(bookingdates.checkin))
+                    .body("booking.bookingdates.checkout", is(bookingdates.checkout))
             ;
         }
     }
 
-     */
+
