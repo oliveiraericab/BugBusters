@@ -105,64 +105,6 @@ import static org.hamcrest.Matchers.*;
                     .body("bookingdates.checkout", is("2019-01-01"))
             ;
         }
-    }
-    /*
-        @Test/
-        public void testarDeleteBooking(){
-
-            given()
-                    .auth().oauth2(token)
-                    .contentType(ct)
-                    .log().all()
-            .when()
-                    .delete(uriUser + "booking/" + id)
-            .then()
-                    // .statusCode(201)
-                    // .body("HTTP/1.1", is("Created"))
-
-            ;
-        }
-    }
-
-/*
-        @Test
-        public void testarAlterarUser() throws IOException {
-            String jsonBody = lerArquivoJson("src/test/resources/json/user2.json");
-            String userId = "15215912";
-            String username = "malagueta";
-
-            given()
-                    .contentType(ct)
-                    .log().all()
-                    .body(jsonBody)
-                    .when()
-                    .put(uriUser + username)
-                    .then()
-                    .log().all()
-                    .statusCode(200)
-                    .body("code", is(200))
-                    .body("type", is("unknown"))
-                    .body("message", is(userId))
-            ;
-        }
-
-        @Test
-        public void testarDeletarUser(){
-            String username = "malagueta";
-
-            given()
-                    .contentType(ct)
-                    .log().all()
-                    .when()
-                    .delete(uriUser + username)
-                    .then()
-                    .log().all()
-                    .statusCode(200)
-                    .body("code", is(200))
-                    .body("type", is("unknown"))
-                    .body("message", is(username))
-            ;
-        }
 
         @ParameterizedTest
         @CsvFileSource(resources = "csv/massaCreateBooking.csv", numLinesToSkip = 1, delimiter = ',')
@@ -171,16 +113,16 @@ import static org.hamcrest.Matchers.*;
                 String lastname,
                 String totalprice,
                 String depositpaid,
-                String bookingdates.checkin,
-                String bookingdates.checkout){
+                String checkin,
+                String checkout){
 
             User user = new User();
             user.firstname = firstname;
             user.lastname = lastname;
             user.totalprice = totalprice;
             user.depositpaid = depositpaid;
-            user.bookingdates.checkin = bookingdates.checkin;
-            user.bookingdates.checkout = bookingdates.checkout;
+            user.checkin = checkin;
+            user.checkout = checkout;
 
             Gson gson = new Gson(); //instancia a classe user
             String jsonBody = gson.toJson(user);
@@ -196,11 +138,26 @@ import static org.hamcrest.Matchers.*;
                     .log().all()
                     .body("booking.firstname", is(firstname))
                     .body("booking.lastname", is(lastname))
-                    .body("booking.bookingdates.checkin", is(bookingdates.checkin))
-                    .body("booking.bookingdates.checkout", is(bookingdates.checkout))
+                    .body("booking.bookingdates.checkin", is(checkin))
+                    .body("booking.bookingdates.checkout", is(checkout))
             ;
         }
+/*
+        @Test/
+        public void testarDeleteBooking(){
+
+            given()
+                    .auth().oauth2(token)
+                    .contentType(ct)
+                    .log().all()
+                    .when()
+                    .delete(uriUser + "booking/" + id)
+                    .then()
+            // .statusCode(201)
+            // .body("HTTP/1.1", is("Created"))
+            ;
+        }
+*/
     }
 
 
-*/

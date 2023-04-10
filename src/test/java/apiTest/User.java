@@ -5,6 +5,6 @@ public class User {
     public String lastname;
     public String totalprice;
     public String depositpaid;
-  //  public String bookingdates.checkin;
-  //  public String bookingdates.checkout;
+    public String checkin;
+    public String checkout;
 }
