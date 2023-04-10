@@ -20,6 +20,10 @@ import static org.hamcrest.Matchers.*;
         static String ct = "application/json";  //content type
         static String uriUser = "https://restful-booker.herokuapp.com/";
 
+        static int id;
+
+        static String token = "";
+
         //Funções e métodos
         //Funções de apoio
         public static String lerArquivoJson(String arquivoJson) throws IOException {
@@ -28,10 +32,34 @@ import static org.hamcrest.Matchers.*;
         //Funções  de Testes
 
         @Test
+        public void testarCreateBooking() throws IOException {
+            // carregar os dados do nosso Json
+            String jsonBody = lerArquivoJson("src/test/resources/json/user1.json");
+            String username = "Malagueta";
+
+            Response resposta = (Response) given()
+                    .contentType(ct)
+                    .log().all()
+                    .body(jsonBody)
+                    .when()
+                    .post(uriUser + "booking")
+                    .then()
+                    .contentType(ct)
+                    .log().all()
+                    .body("booking.firstname", is("Malagueta"))
+                    .body("booking.lastname", is("Oliveira"))
+                    .body("booking.bookingdates.checkin", is("2018-01-01"))
+                    .body("booking.bookingdates.checkout", is("2019-01-01"))
+                    //como extrair o bookingid
+                    .extract();
+            id = resposta.jsonPath().getInt("bookingid");
+        }
+
+        @Test
         public void testarCreateToken() throws IOException {
             String jsonBody = lerArquivoJson("src/test/resources/json/user2.json");
 
-            given()
+            Response resposta = (Response) given()
                     .contentType(ct)                             // tipo de conteúdo
                     .log().all()                                 // mostre tudo
                     .body(jsonBody)                              // corpo da requisição
@@ -41,57 +69,62 @@ import static org.hamcrest.Matchers.*;
                     .contentType(ct)
                     .log().all()
                     .body("token", hasLength(15))
-            //como  extrair o token
-            ;
+                    .extract();
+            token = resposta.jsonPath().getString("token");
         }
 
         @Test
-        public void testarCreateBooking() throws IOException {
-            // carregar os dados do nosso Json
-            String jsonBody = lerArquivoJson("src/test/resources/json/user1.json");
-            String username = "Malagueta";
+        public void testarGetBookingIds() {
 
             given()
                     .contentType(ct)
                     .log().all()
-                    .body(jsonBody)
-            .when()
-                    .post(uriUser + "booking")
-            .then()
-                    //.accept(ac)
+                    .when()
+                    .get(uriUser + "booking")
+                    .then()
                     .contentType(ct)
                     .log().all()
-                    .body("booking.firstname", is("Malagueta"))
-                    .body("booking.lastname", is("Oliveira"))
-                    .body("booking.bookingdates.checkin", is("2018-01-01"))
-                    .body("booking.bookingdates.checkout", is("2019-01-01"))
-                  //como extrair o bookingid
+            //.body("bookingid", is(id))
             ;
         }
 
         @Test
-        public void testarGetBooking(){
-            String id = "5973";
+        public void testarGetBooking() {
 
-                given()
+            given()
                     .contentType(ct)
                     .log().all()
-                .when()
-                    .get( uriUser + "booking/" + id)
-
-                .then()
+                    .when()
+                    .get(uriUser + "booking/" + id)
+                    .then()
                     .contentType(ct)
                     .log().all()
                     .body("firstname", is("Malagueta"))
                     .body("lastname", is("Oliveira"))
                     .body("bookingdates.checkin", is("2018-01-01"))
                     .body("bookingdates.checkout", is("2019-01-01"))
-                //como comparar depositpaid boolean?
             ;
-
         }
+    }
     /*
+        @Test/
+        public void testarDeleteBooking(){
 
+            given()
+                    .auth().oauth2(token)
+                    .contentType(ct)
+                    .log().all()
+            .when()
+                    .delete(uriUser + "booking/" + id)
+            .then()
+                    // .statusCode(201)
+                    // .body("HTTP/1.1", is("Created"))
+
+            ;
+        }
+    }
+
+/*
         @Test
         public void testarAlterarUser() throws IOException {
             String jsonBody = lerArquivoJson("src/test/resources/json/user2.json");
@@ -113,7 +146,7 @@ import static org.hamcrest.Matchers.*;
             ;
         }
 
-        @Test @Order(4)
+        @Test
         public void testarDeletarUser(){
             String username = "malagueta";
 
@@ -130,9 +163,9 @@ import static org.hamcrest.Matchers.*;
                     .body("message", is(username))
             ;
         }
- */
+
         @ParameterizedTest
-        @CsvFileSource(resources = "csv/massaCreateBooking", numLinesToSkip = 1, delimiter = ',')
+        @CsvFileSource(resources = "csv/massaCreateBooking.csv", numLinesToSkip = 1, delimiter = ',')
         public void testarCreateBookingCSV(
                 String firstname,
                 String lastname,
@@ -149,7 +182,7 @@ import static org.hamcrest.Matchers.*;
             user.bookingdates.checkin = bookingdates.checkin;
             user.bookingdates.checkout = bookingdates.checkout;
 
-            Gson gson = new Gson();
+            Gson gson = new Gson(); //instancia a classe user
             String jsonBody = gson.toJson(user);
 
             given()
@@ -161,7 +194,6 @@ import static org.hamcrest.Matchers.*;
             .then()
                     .contentType(ct)
                     .log().all()
-                    .body("bookingid", is(________)) //como extrair o bookingid
                     .body("booking.firstname", is(firstname))
                     .body("booking.lastname", is(lastname))
                     .body("booking.bookingdates.checkin", is(bookingdates.checkin))
@@ -171,3 +203,4 @@ import static org.hamcrest.Matchers.*;
     }
 
 
+*/

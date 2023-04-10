@@ -1,4 +1,4 @@
-firstname,lastname,totalprice,depositpaid,bookingdates/checkin,bookingdates/checkout,additionalneeds
+firstname,lastname,totalprice,depositpaid,bookingdates.checkin,bookingdates.checkout,additionalneeds
 Jim,Brown,111,true,2018-01-01,2019-01-01,Breakfast
 Maria,Silva,150,false,2022-06-05,2022-06-10,None
 John,Doe,300,true,2022-07-12,2022-07-17,Extra towels
