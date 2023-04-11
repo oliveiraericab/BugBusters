@@ -24,6 +24,8 @@ import static org.hamcrest.Matchers.*;
 
         static String token = "";
 
+        static String ck = ("token=" + token);
+
         //Funções e métodos
         //Funções de apoio
         public static String lerArquivoJson(String arquivoJson) throws IOException {
@@ -107,7 +109,7 @@ import static org.hamcrest.Matchers.*;
         }
 
         @ParameterizedTest
-        @CsvFileSource(resources = "csv/massaCreateBooking.csv", numLinesToSkip = 1, delimiter = ',')
+        @CsvFileSource(resources = "massaCreateBooking.csv", numLinesToSkip = 1, delimiter = ',')
         public void testarCreateBookingCSV(
                 String firstname,
                 String lastname,
@@ -121,8 +123,8 @@ import static org.hamcrest.Matchers.*;
             user.lastname = lastname;
             user.totalprice = totalprice;
             user.depositpaid = depositpaid;
-            user.checkin = checkin;
-            user.checkout = checkout;
+            user.bookingdates.checkin = checkin;
+            user.bookingdates.checkout = checkout;
 
             Gson gson = new Gson(); //instancia a classe user
             String jsonBody = gson.toJson(user);
@@ -142,22 +144,21 @@ import static org.hamcrest.Matchers.*;
                     .body("booking.bookingdates.checkout", is(checkout))
             ;
         }
-/*
-        @Test/
-        public void testarDeleteBooking(){
+
+        @Test
+        public void testarDeleteBooking() {
 
             given()
-                    .auth().oauth2(token)
+                    //.auth().oauth2(token)
                     .contentType(ct)
+                    .cookie(ck)
                     .log().all()
                     .when()
                     .delete(uriUser + "booking/" + id)
                     .then()
-            // .statusCode(201)
-            // .body("HTTP/1.1", is("Created"))
+                    .statusCode(200)
+                     //.body("Response", is("HTTP/1.1 201 Created"))
             ;
         }
-*/
+
     }
-
-

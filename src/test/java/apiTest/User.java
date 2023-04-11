@@ -5,6 +5,5 @@ public class User {
     public String lastname;
     public String totalprice;
     public String depositpaid;
-    public String checkin;
-    public String checkout;
+    public Bookingdates bookingdates = new Bookingdates();
 }
