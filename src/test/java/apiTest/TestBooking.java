@@ -2,7 +2,10 @@ package apiTest;
 
 import com.google.gson.Gson;
 import io.restassured.response.Response;
+import org.junit.jupiter.api.MethodOrderer;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.TestMethodOrder;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvFileSource;
 
@@ -14,6 +17,7 @@ import static io.restassured.RestAssured.given;
 import static org.hamcrest.Matchers.hasLength;
 import static org.hamcrest.Matchers.is;
 
+    @TestMethodOrder(MethodOrderer.OrderAnnotation.class)
     public class TestBooking {   //Início da classe
         //Atributos
         static String ct = "application/json";  //content type
@@ -30,7 +34,7 @@ import static org.hamcrest.Matchers.is;
         }
         //Funções  de Testes
 
-        @Test
+        @Test  @Order(1)
         public void testarCreateBooking() throws IOException {
             // carregar os dados do nosso Json
             String jsonBody = lerArquivoJson("src/test/resources/json/user1.json");
@@ -54,7 +58,7 @@ import static org.hamcrest.Matchers.is;
             id = resposta.jsonPath().getInt("bookingid");
         }
 
-        @Test
+        @Test @Order(2)
         public void testarCreateToken() throws IOException {
             String jsonBody = lerArquivoJson("src/test/resources/json/user2.json");
 
@@ -72,7 +76,7 @@ import static org.hamcrest.Matchers.is;
             token = resposta.jsonPath().getString("token");
         }
 
-        @Test
+        @Test @Order(3)
         public void testarGetBookingIds() {
 
             given()
@@ -87,7 +91,7 @@ import static org.hamcrest.Matchers.is;
             ;
         }
 
-        @Test
+        @Test @Order(4)
         public void testarGetBooking() {
             int id = 39;  //testando se a funcao delete esta funcionando.nao esta.
 
@@ -106,7 +110,7 @@ import static org.hamcrest.Matchers.is;
             ;
         }
 
-        @ParameterizedTest
+        @ParameterizedTest @Order(6)
         @CsvFileSource(resources = "massaCreateBooking.csv", numLinesToSkip = 1, delimiter = ',')
         public void testarCreateBookingCSV(
                 String firstname,
@@ -143,16 +147,15 @@ import static org.hamcrest.Matchers.is;
             ;
         }
 
-    }
-/*
-        @Test
+
+        @Test @Order(5)
         public void testarUpdateBooking() throws IOException {
             String jsonBody = lerArquivoJson("src/test/resources/json/putUser1.json");
 
             given()
                     .contentType(ct)
                     .log().all()
-                    .header("Cookie","token=" + token) //é opcional
+                    .header("Cookie", "token=741ca1857d30c9b") //é opcional
                     .body(jsonBody)
                     .when()
                     .put(uriUser + "booking/" + id)
@@ -167,7 +170,7 @@ import static org.hamcrest.Matchers.is;
             ;
         }
 
-
+/*
         @Test
         public void testarPartialUpdateBooking() throws IOException {
             String jsonBody = lerArquivoJson("src/test/resources/json/putPartialUser1.json");
@@ -213,3 +216,4 @@ import static org.hamcrest.Matchers.is;
             ;
         }
  */
+    }
