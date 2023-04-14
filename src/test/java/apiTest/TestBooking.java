@@ -110,7 +110,7 @@ import static org.hamcrest.Matchers.is;
             ;
         }
 
-        @ParameterizedTest @Order(6)
+        @ParameterizedTest @Order(8)
         @CsvFileSource(resources = "massaCreateBooking.csv", numLinesToSkip = 1, delimiter = ',')
         public void testarCreateBookingCSV(
                 String firstname,
@@ -170,8 +170,7 @@ import static org.hamcrest.Matchers.is;
             ;
         }
 
-/*
-        @Test
+        @Test @Order(6)
         public void testarPartialUpdateBooking() throws IOException {
             String jsonBody = lerArquivoJson("src/test/resources/json/putPartialUser1.json");
 
@@ -193,14 +192,11 @@ import static org.hamcrest.Matchers.is;
             ;
         }
 
-         @Test
+        @Test @Order(7)
         public void testarDeleteBooking() {
             int id = 39;
 
             given()
-                    //.auth().oauth2(token)
-                    //.cookie("token=<token_value")
-                    //.cookie("token=4e74165646ee39d")
                     .contentType(ct)
                     .header("Cookie", "token=" + token) //é opcional
                     .log().all()
@@ -215,5 +211,4 @@ import static org.hamcrest.Matchers.is;
                     //.body("OK", is("HTTP/1.1 201")) >>>>> OK é o nome do campo indicado na api
             ;
         }
- */
     }
