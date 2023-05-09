@@ -20,7 +20,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 //PRECISA FAZER LOGIN PRIMEIRO
 
 public class SolicitarSaqueSIDE {
-
     private WebDriver driver;
     private Map<String, Object> vars;
     JavascriptExecutor js;
