@@ -19,12 +19,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 //PRECISA FAZER LOGIN PRIMEIRO
 
 public class SolicitarSaqueSIDE {
-    LoginSIDE login = new LoginSIDE();
-    static class LoginSIDE{};
-
     private WebDriver driver;
     private Map<String, Object> vars;
     JavascriptExecutor js;
+
     @BeforeEach
     public void setUp() {
         WebDriverManager.chromedriver().setup();
@@ -36,12 +34,23 @@ public class SolicitarSaqueSIDE {
         vars = new HashMap<String, Object>();
         driver.manage().timeouts().implicitlyWait(60000, TimeUnit.MILLISECONDS);
     }
+
     @AfterEach
     public void tearDown() {
         driver.quit();
     }
+
     @Test
     public void solicitarSaque() {
+        // logando
+        driver.get("https://testando.eveclass.com/pt/auth/entrar");
+        driver.manage().window().setSize(new Dimension(892, 720));
+        driver.findElement(By.xpath("//div[@id=\'auth-panel\']/div[2]/div/div/div/div/div[2]/div/form/div/div/div/div/input")).click();
+        driver.findElement(By.xpath("//div[@id=\'auth-panel\']/div[2]/div/div/div/div/div[2]/div/form/div/div/div/div/input")).sendKeys("_teste_@yopmail.com");
+        driver.findElement(By.xpath("//div[@id=\'auth-panel\']/div[2]/div/div/div/div/div[2]/div/form/div/div[2]/div/div/input")).click();
+        driver.findElement(By.xpath("//div[@id=\'auth-panel\']/div[2]/div/div/div/div/div[2]/div/form/div/div[2]/div/div/input")).sendKeys("_teste_");
+        driver.findElement(By.cssSelector(".button")).click();
+        //solicitando saque
         driver.get("https://testando.eveclass.com/pt/conta/meus-cursos");
         driver.manage().window().setSize(new Dimension(1364, 720));
         driver.findElement(By.linkText("Admin")).click();
